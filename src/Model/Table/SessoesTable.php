@@ -85,14 +85,25 @@ class SessoesTable extends Table
 
         $validator
             ->time('start_time')
-            ->allowEmptyTime('start_time');
+            ->allowEmptyTime('start_time')
+            ->add('start_time', 'HoraInicial18', [
+                'rule' => function($value, $context) {
+
+                    if (strtotime($value) < strtotime("18:00")) {
+                        return true;
+                    }
+
+                    return 'Hora inicial não pode ser maior que 18:00';
+                }
+            ]);
 
         $validator
             ->time('end_time')
             ->allowEmptyTime('end_time')
             ->add('end_time', 'HoraFinalMenor', [
                 'rule' => function ($value, $context) {
-                    if (strtotime($value) > strtotime($context['data']['start_time'])){
+
+                    if (strtotime($value) > strtotime($context['data']['start_time'])) {
                         return true;
                     }
 

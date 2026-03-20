@@ -100,7 +100,7 @@ class SessoesTableTest extends TestCase
             'apostila_id' => 1,
             'name' => 'Sessão hora final menor',
             'created' => '2026-02-17 10:42:34',
-            'sessao_date' => '2026-02-17',
+            'sessao_date' => '2026-03-19',
             'start_time' => '13:00:00',
             'end_time' => '11:30:00',
             'conteudo' => '123',
@@ -109,6 +109,26 @@ class SessoesTableTest extends TestCase
 
         $sessao = $this->Sessoes->newEntity($sessaoCriada);
 
+        dd($sessao->getErrors());
+        $this->assertNotEmpty($sessao->getErrors());
+    }
+
+    public function testHoraInicialMaior18h(): void
+    {
+        $sessaoCriada = [
+            'user_id' => 1,
+            'apostila_id' => 1,
+            'name' => 'Sessão hora inicial 18h',
+            'created' => '2026-04-25 13:15:45',
+            'sessao_date' => '2026-04-21',
+            'start_time' => '19:00:00',
+            'end_time' => '21:30:00',
+            'conteudo' => 'Conteúdo x',
+            'objetivo' => 'Objetivo y',
+        ];
+
+        $sessao = $this->Sessoes->newEntity($sessaoCriada);
+        
         dd($sessao->getErrors());
         $this->assertNotEmpty($sessao->getErrors());
     }
