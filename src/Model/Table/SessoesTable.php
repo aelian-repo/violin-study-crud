@@ -133,6 +133,26 @@ class SessoesTable extends Table
     {
         $rules->add($rules->existsIn('user_id', 'Users'), ['errorField' => 'user_id']);
         $rules->add($rules->existsIn('apostila_id', 'Apostilas'), ['errorField' => 'apostila_id']);
+        $rules->add(function ($entity, $options) {
+
+            $ultimaSessao = $this->find()
+                ->where(['user_id' => $entity->user_id])
+                ->order(['created' => 'DESC'])
+                ->first();
+
+            if (!$ultimaSessao) {
+                return true;
+            }
+
+            if ($entity->start_time > $ultimaSessao->end_time) {
+                return true;
+            }
+
+            return false;
+        }, 'SessaoAposOutra', [
+            'errorField' => 'start_time',
+            'message' => 'Hora ou data deve ser maior que a da última sessão criada'
+        ]);
 
         return $rules;
     }

@@ -61,8 +61,8 @@ class SessoesTableTest extends TestCase
             'name' => 'Sessão 2222',
             'created' => '2026-01-15 20:25:15',
             'sessao_date' => '2026-02-17',
-            'start_time' => '11:00:00',
-            'end_time' => '14:30:00',
+            'start_time' => '14:00:00',
+            'end_time' => '17:30:00',
             'conteudo' => 'Conteúdo 222',
             'objetivo' => 'Objetivo 222',
         ];
@@ -109,7 +109,6 @@ class SessoesTableTest extends TestCase
 
         $sessao = $this->Sessoes->newEntity($sessaoCriada);
 
-        dd($sessao->getErrors());
         $this->assertNotEmpty($sessao->getErrors());
     }
 
@@ -129,7 +128,26 @@ class SessoesTableTest extends TestCase
 
         $sessao = $this->Sessoes->newEntity($sessaoCriada);
         
-        dd($sessao->getErrors());
         $this->assertNotEmpty($sessao->getErrors());
+    }
+
+    public function testSessaoAposOutra(): void
+    {
+         $sessaoCriada = [
+            'user_id' => 1,
+            'apostila_id' => 1,
+            'name' => 'Sessão 02',
+            'created' => '2026-01-17 19:25:15',
+            'sessao_date' => '2026-01-17',
+            'start_time' => '13:00:00',
+            'end_time' => '15:00:00',
+            'conteudo' => 'Conteúdo 02',
+            'objetivo' => 'Objetivo 02',
+        ];
+
+        $sessao = $this->Sessoes->newEntity($sessaoCriada);
+        $result = $this->Sessoes->save($sessao);
+
+        $this->assertFalse($result);
     }
 }
