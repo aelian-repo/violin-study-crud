@@ -136,10 +136,12 @@ class Application extends BaseApplication
     {
         $service = new AuthenticationService();
 
-        $service->loadIdentifier('Authentication.Password', [
+        $service->loadIdentifier('App.GuiaDoUsuario', [
             'fields' => [
-                'username' => 'email',
-                'password' => 'password',
+                'UsuarioAssinante' => [
+                    'login' => IdentifierInterface::CREDENTIAL_USERNAME,
+                    'senha' => IdentifierInterface::CREDENTIAL_PASSWORD,
+                ],
             ],
             'resolver' => [
                 'className' => 'Authentication.Orm',
@@ -151,10 +153,10 @@ class Application extends BaseApplication
 
         $service->loadAuthenticator('Authentication.Form', [
             'fields' => [
-                'username' => 'email',
-                'password' => 'password',
+                IdentifierInterface::CREDENTIAL_USERNAME => 'email',
+                IdentifierInterface::CREDENTIAL_PASSWORD => 'password',
             ],
-            'loginUrl' => '/violin-cake/users/login',
+            'loginUrl' => Router::url('/users/login')
         ]);
 
         return $service;
