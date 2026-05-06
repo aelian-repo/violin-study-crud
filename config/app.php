@@ -65,6 +65,13 @@ return [
             'templates' => [ROOT . DS . 'templates' . DS],
             'locales' => [RESOURCES . 'locales' . DS],
         ],
+        'onboardingVersao' => 'v1',
+        'onboardingChave' => '2a5d7400f3b1d2876bee4938d89d9e24'
+    ],
+
+    'Onboarding' => [
+        'testUrl' => 'http://localhost/onboarding/',
+        'url' => 'https://guiadousuario.com.br/app/'
     ],
 
     /*

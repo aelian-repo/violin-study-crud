@@ -36,6 +36,9 @@ use Authorization\Middleware\AuthorizationMiddleware;
 use Authorization\AuthorizationServiceProviderInterface;
 use Authorization\AuthorizationService;
 use Authorization\AuthorizationServiceInterface;
+use Authentication\Identifier\IdentifierInterface;
+use App\Identifier\GuiaDoUsuarioIdentifier;
+use Cake\Routing\Router;
 
 /**
  * Application setup class.
@@ -136,7 +139,7 @@ class Application extends BaseApplication
     {
         $service = new AuthenticationService();
 
-        $service->loadIdentifier('App.GuiaDoUsuario', [
+        $service->loadIdentifier('GuiaDoUsuario', [
             'fields' => [
                 'UsuarioAssinante' => [
                     'login' => IdentifierInterface::CREDENTIAL_USERNAME,

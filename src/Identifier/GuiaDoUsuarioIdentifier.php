@@ -20,7 +20,7 @@ use Authentication\Identifier\Resolver\ResolverAwareTrait;
 use Authentication\Identifier\Resolver\ResolverInterface;
 use Authentication\Identifier\AbstractIdentifier;
 use Cake\Datasource\FactoryLocator;
-use App\UsuarioAssinantes;
+use App\Identifier\UsuarioAssinantes;
 
 class GuiaDoUsuarioIdentifier extends AbstractIdentifier
 {
@@ -110,9 +110,14 @@ class GuiaDoUsuarioIdentifier extends AbstractIdentifier
         $conditions = [];
         if (is_array($usuarioAssinanteFields)) {
             foreach ($usuarioAssinanteFields as $userField => $dataField) {
-                if ($dataField !== self::CREDENTIAL_PASSWORD) {
-                    $conditions[$userField] = $data[$dataField];
+                if ($dataField === self::CREDENTIAL_PASSWORD) {
+                    continue;
                 }
+
+                if ($userField === 'login') {
+                    $userField = 'email';
+                }
+                $conditions[$userField] = $data[$dataField];
             }
         }
         if (is_array($assinanteFields)) {
@@ -121,9 +126,7 @@ class GuiaDoUsuarioIdentifier extends AbstractIdentifier
             }
         }
         $entity = $userTable->newEmptyEntity();
-        if ($entity->isAccessible('deleted')) {
-            $conditions[] = $userTable->getAlias() . '.deleted IS NULL';
-        }
+        
         $contain = $this->getResolver()->getConfig('contain');
         $entity = $userTable->find()
             ->where($conditions)

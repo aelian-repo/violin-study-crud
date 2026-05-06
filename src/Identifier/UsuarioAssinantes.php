@@ -3,12 +3,15 @@ declare(strict_types=1);
 
 namespace App\Identifier;
 
+use Cake\Core\Configure;
+use Cake\Utility\Inflector;
+
 class UsuarioAssinantes
 {
     protected $params;
-    
+
     public function login($usuarioAssinante) 
-    {     
+    {   
         $this->params = 'login';
     
         return $this->request('POST', $usuarioAssinante);    
@@ -45,15 +48,14 @@ class UsuarioAssinantes
     public function getUrl() 
     {
         $url = Configure::read('Onboarding.testUrl');
-        if (Configure::read('debug') == 0) {
+        if (Configure::read('debug') === false) {
             $url = Configure::read('Onboarding.url');            
         }
-        $path = 'api-' . Inflector::dasherize(Inflector::pluralize($this->getName()));
+        $path = 'api-usuario-assinantes';
         $versao = Configure::read('App.onboardingVersao') . '/';
         $chave = Configure::read('App.onboardingChave') . '/';      
         $params = !empty($this->params) ? '/call/' . $this->params : '';
         $url .= $versao . $chave . $path . $params; 
-
         return $url;
     }
 }
