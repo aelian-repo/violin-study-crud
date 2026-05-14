@@ -70,8 +70,7 @@ return [
     ],
 
     'Onboarding' => [
-        'testUrl' => 'http://localhost/onboarding/',
-        'url' => 'https://guiadousuario.com.br/app/'
+        'baseUrl' => 'http://localhost/onboarding/'
     ],
 
     /*

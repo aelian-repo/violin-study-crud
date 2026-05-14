@@ -45,17 +45,12 @@ class UsuarioAssinantes
         return $response;                
     }       
     
-    public function getUrl() 
+    public function getUrl()
     {
-        $url = Configure::read('Onboarding.testUrl');
-        if (Configure::read('debug') === false) {
-            $url = Configure::read('Onboarding.url');            
-        }
+        $url = Configure::read('Onboarding.baseUrl');
         $path = 'api-usuario-assinantes';
         $versao = Configure::read('App.onboardingVersao') . '/';
-        $chave = Configure::read('App.onboardingChave') . '/';      
-        $params = !empty($this->params) ? '/call/' . $this->params : '';
-        $url .= $versao . $chave . $path . $params; 
-        return $url;
+        $chave = Configure::read('App.onboardingChave') . '/';
+        return $url . $versao . $chave . $path;
     }
 }

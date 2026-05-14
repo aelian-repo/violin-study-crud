@@ -12,6 +12,7 @@ use Cake\Event\EventInterface;
 use ArrayObject;
 use Cake\Log\Log;
 use Cake\Http\Client;
+use Cake\Core\Configure;
 
 /**
  * Users Model
@@ -140,6 +141,15 @@ class UsersTable extends Table
         }
     }
 
+    public function getOnboardingUrl($path = '')
+    {
+        $baseUrl = Configure::read('Onboarding.baseUrl');
+        $versao = Configure::read('App.onboardingVersao');
+        $chave = Configure::read('App.onboardingChave');
+
+        return $baseUrl . $versao . '/' . $chave . '/' . $path;
+    }
+
     public function cadastrarAssinante($entity)
     {
         $http = new Client();
@@ -149,7 +159,7 @@ class UsersTable extends Table
             'nome' => $entity->email
         ];
 
-        $url = "http://ec2-54-232-27-94.sa-east-1.compute.amazonaws.com/guiadousuario/v1/2a5d7400f3b1d2876bee4938d89d9e24/api-assinantes.json";
+        $url = $this->getOnboardingUrl('api-assinantes.json');
 
         $response = $http->post($url, $data, [
             'type' => 'json',
@@ -184,7 +194,7 @@ class UsersTable extends Table
             'email' => $entity->email
         ];
 
-        $url = "http://ec2-54-232-27-94.sa-east-1.compute.amazonaws.com/guiadousuario/v1/2a5d7400f3b1d2876bee4938d89d9e24/api-usuario-assinantes.json";
+        $url = $this->getOnboardingUrl('api-usuario-assinantes.json');
 
         $response = $http->post($url, $data, [
             'type' => 'json'
@@ -225,7 +235,7 @@ class UsersTable extends Table
 
         $id = $entity->usuario_assinante_id;
 
-        $url = "http://ec2-54-232-27-94.sa-east-1.compute.amazonaws.com/guiadousuario/v1/2a5d7400f3b1d2876bee4938d89d9e24/api-usuarios-assinantes/{$id}.json";
+        $url = $this->getOnboardingUrl("api-usuarios-assinantes/{$id}.json");
         $response = $http->post($url, $data, [
             'type' => 'json'
         ]);
