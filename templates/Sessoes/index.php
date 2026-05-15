@@ -136,10 +136,16 @@ foreach ($sessoes as $sesso) {
         $this->Html->tag(
             'td',
 
-                $this->Html->link(
-                    $sesso->apostila->name,
-                    ['controller' => 'Apostilas', 'action' => 'view', $sesso->apostila->id]
-                )
+                !empty($sesso->apostila)
+                    ? $this->Html->link(
+                        $sesso->apostila->name,
+                        [
+                            'controller' => 'Apostilas',
+                            'action' => 'view',
+                            $sesso->apostila->id
+                        ]
+                    )
+                : '-'
         ) .
         $this->Html->tag('td', $this->Time->format($sesso->sessao_date, 'dd/MM/yyyy')) .
         $this->Html->tag('td', $actions)
