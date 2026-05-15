@@ -70,7 +70,8 @@ class SessoesController extends AppController
             $data = $this->request->getData();
 
             if (!empty($data['sessao_date'])) {
-                $data['sessao_date'] = new FrozenDate(
+                $data['sessao_date'] = FrozenDate::createFromFormat(
+                    'd/m/Y',
                     $data['sessao_date']
                 );
             }

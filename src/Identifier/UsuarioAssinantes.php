@@ -51,6 +51,9 @@ class UsuarioAssinantes
         $path = 'api-usuario-assinantes';
         $versao = Configure::read('App.onboardingVersao') . '/';
         $chave = Configure::read('App.onboardingChave') . '/';
-        return $url . $versao . $chave . $path;
+        $params = !empty($this->params)
+            ? '/call/' . $this->params
+            : '';
+        return $url . $versao . $chave . $path . $params;
     }
 }
