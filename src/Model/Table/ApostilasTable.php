@@ -13,6 +13,8 @@ use Cake\Validation\Validator;
  *
  * @property \App\Model\Table\UsersTable&\Cake\ORM\Association\BelongsTo $Users
  * @property \App\Model\Table\SessoesTable&\Cake\ORM\Association\HasMany $Sessoes
+ * @property \App\Model\Table\SessoesTable $Sessoes
+ * @property \App\Model\Table\UsersTable $Users
  *
  * @method \App\Model\Entity\Apostila newEmptyEntity()
  * @method \App\Model\Entity\Apostila newEntity(array $data, array $options = [])

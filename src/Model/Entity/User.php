@@ -12,6 +12,7 @@ use Authentication\PasswordHasher\DefaultPasswordHasher;
  * @property int $id
  * @property string $email
  * @property string $password
+ * @property string|null $plain_password
  * @property \Cake\I18n\FrozenTime $created
  */
 class User extends Entity
@@ -49,5 +50,7 @@ class User extends Entity
         if(strlen((string)$password) > 0) {
             return (new DefaultPasswordHasher())->hash($password);
         }
+
+        return null;
     }
 }

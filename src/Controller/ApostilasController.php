@@ -7,6 +7,7 @@ namespace App\Controller;
  * Apostilas Controller
  *
  * @property \App\Model\Table\ApostilasTable $Apostilas
+ * @property \Authorization\Controller\Component\AuthorizationComponent $Authorization
  * @method \App\Model\Entity\Apostila[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
 class ApostilasController extends AppController

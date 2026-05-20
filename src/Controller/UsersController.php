@@ -184,6 +184,8 @@ class UsersController extends AppController
                 ->first();
             
             if ($user) {
+                /** @var \App\Model\Entity\User $user */
+                
                 $user->password = $this->request->getData('new_password');
 
                 if ($this->Users->save($user)) {

@@ -2,7 +2,7 @@
 namespace App\Policy;
 
 use App\Model\Entity\Sesso;
-use Authorization\IdentityInterface;
+use Authentication\IdentityInterface;
 
 class SessoPolicy
 {

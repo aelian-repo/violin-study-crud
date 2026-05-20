@@ -7,6 +7,9 @@ use Cake\Event\EventInterface;
 use Cake\Log\Log;
 use Cake\Utility\Text;
 
+/**
+* @property \App\Model\Table\UsersTable $Users
+*/
 class WebhooksController extends AppController
 {
     public function initialize(): void
@@ -82,6 +85,7 @@ class WebhooksController extends AppController
             return;
         }
 
+        /** @var \App\Model\Entity\User $user */
         $user->email = $data['email'];
 
         if (!empty($data['senha'])) {

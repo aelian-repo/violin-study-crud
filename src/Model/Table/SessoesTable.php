@@ -13,6 +13,8 @@ use Cake\Validation\Validator;
  *
  * @property \App\Model\Table\UsersTable&\Cake\ORM\Association\BelongsTo $Users
  * @property \App\Model\Table\ApostilasTable&\Cake\ORM\Association\BelongsTo $Apostilas
+ * @property \App\Model\Table\ApostilasTable $Apostilas
+ * @property \App\Model\Table\UsersTable $Users
  *
  * @method \App\Model\Entity\Sesso newEmptyEntity()
  * @method \App\Model\Entity\Sesso newEntity(array $data, array $options = [])
@@ -135,6 +137,8 @@ class SessoesTable extends Table
         $rules->add($rules->existsIn('apostila_id', 'Apostilas'), ['errorField' => 'apostila_id']);
         $rules->add(function ($entity, $options) {
 
+        /** @var \App\Model\Entity\Sesso $entity */
+
             $ultimaSessao = $this->find()
                 ->where(['user_id' => $entity->user_id])
                 ->order(['created' => 'DESC'])
@@ -143,7 +147,7 @@ class SessoesTable extends Table
             if (!$ultimaSessao) {
                 return true;
             }
-
+            /** @var \App\Model\Entity\Sesso|null $ultimaSessao */
             if($entity->sessao_date > $ultimaSessao->sessao_date) {
                 return true;
             }

@@ -18,6 +18,7 @@ namespace App\Identifier;
 
 use Authentication\Identifier\Resolver\ResolverAwareTrait;
 use Authentication\Identifier\Resolver\ResolverInterface;
+use Authentication\Identifier\Resolver\OrmResolver;
 use Authentication\Identifier\AbstractIdentifier;
 use Cake\Datasource\FactoryLocator;
 use App\Identifier\UsuarioAssinantes;
@@ -99,7 +100,10 @@ class GuiaDoUsuarioIdentifier extends AbstractIdentifier
 
     public function getUserEntity(array $data)
     {
-        $userModel = $this->getResolver()->getConfig('userModel');
+        /** @var OrmResolver $resolver */
+        $resolver = $this->getResolver();
+
+        $userModel = $resolver->getConfig('userModel');
         if (empty($userModel)) {
             return true;
         }
@@ -127,8 +131,12 @@ class GuiaDoUsuarioIdentifier extends AbstractIdentifier
         }
         $entity = $userTable->newEmptyEntity();
         
-        $contain = $this->getResolver()->getConfig('contain');
-        $entity = $userTable->find()
+        $contain = $resolver->getConfig('contain');
+
+        /** @var \Cake\ORM\Query $query */
+        $query = $userTable->find();
+
+        $entity = $query
             ->where($conditions)
             ->contain($contain)
             ->first();
