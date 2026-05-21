@@ -53,8 +53,8 @@ class Sesso extends Entity
             return null;
         }
 
-        $inicio = strtotime($this->start_time);
-        $fim = strtotime($this->end_time);
+        $inicio = strtotime((string)$this->start_time);
+        $fim = strtotime((string)$this->end_time);
 
         $diff = $fim - $inicio;
 
