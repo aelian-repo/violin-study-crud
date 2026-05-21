@@ -108,8 +108,9 @@ class SessoesController extends AppController
     {
         $sesso = $this->Sessoes->get($id);
 
+        $sessaoDate = null;
         if (!empty($sesso->sessao_date)) {
-            $sesso->sessao_date = $sesso->sessao_date->format('d/m/Y');
+            $sessaoDate = $sesso->sessao_date->format('d/m/Y');
         }
 
         $this->Authorization->authorize($sesso);
