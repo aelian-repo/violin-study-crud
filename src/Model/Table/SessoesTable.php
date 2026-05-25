@@ -139,6 +139,8 @@ class SessoesTable extends Table
 
         /** @var \App\Model\Entity\Sesso $entity */
 
+        /** @var \App\Model\Entity\Sesso|null $ultimaSessao */
+
             $ultimaSessao = $this->find()
                 ->where(['user_id' => $entity->user_id])
                 ->order(['created' => 'DESC'])
@@ -147,7 +149,7 @@ class SessoesTable extends Table
             if (!$ultimaSessao) {
                 return true;
             }
-            /** @var \App\Model\Entity\Sesso|null $ultimaSessao */
+            
             if($entity->sessao_date > $ultimaSessao->sessao_date) {
                 return true;
             }

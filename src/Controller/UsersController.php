@@ -113,16 +113,19 @@ class UsersController extends AppController
 
         $result = $this->Authentication->getResult();
 
-        if($result->isValid()) {
+        if($result !== null && $result->isValid()) {
             $redirect = $this->request->getQuery('redirect', [
                 'controller' => 'Sessoes',
                 'action' => 'index',
             ]);
 
+            if($redirect === null) {
+                return null;
+            }
             return $this->redirect($redirect);
         }
 
-        if ($this->request->is('post')) {
+        if ($this->request->is('post') && $result !== null) {
             $message = 'Informe o usuário e a senha!';
             $errors = $result->getErrors();
             if (isset($errors['GuiaDoUsuario'])) {
