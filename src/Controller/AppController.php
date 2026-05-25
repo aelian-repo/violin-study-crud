@@ -66,6 +66,9 @@ class AppController extends Controller
         //$this->loadComponent('FormProtection');
     }
 
+    /**
+     * @param \Cake\Event\EventInterface<\Cake\Controller\Controller> $event
+     */
     public function beforeFilter(EventInterface $event)
     {
         parent::beforeFilter($event);

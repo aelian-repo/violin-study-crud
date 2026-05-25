@@ -6,6 +6,7 @@ namespace App\Controller;
 use Cake\Event\EventInterface;
 use Cake\Log\Log;
 use Cake\Utility\Text;
+use Cake\Http\Response;
 
 /**
 * @property \App\Model\Table\UsersTable $Users
@@ -27,7 +28,7 @@ class WebhooksController extends AppController
         $this->Authorization->skipAuthorization();
     }
 
-    public function index()
+    public function index(): Response
     {
         $this->request->allowMethod(['post']);
 
@@ -36,7 +37,7 @@ class WebhooksController extends AppController
         $evento = $data['evento'] ?? null;
 
         if (!$evento) {
-            return;
+            return $this->response->withStatus(400);
         }
 
         if ($evento === 'usuario_criacao') {
@@ -51,10 +52,13 @@ class WebhooksController extends AppController
 
         $this->autoRender = false;
 
-        $this->response = $this->response->withStatus(200);
+        return $this->response->withStatus(200);
     }
 
-    public function usuarioCriacao($data)
+    /**
+     * @param array<string, mixed> $data
+     */
+    public function usuarioCriacao(array $data): void
     {
         $password = 'Temp1234';
 
@@ -70,7 +74,10 @@ class WebhooksController extends AppController
         ]);
     }
 
-    public function usuarioAlteracao($data)
+    /**
+     * @param array<string, mixed> $data
+     */
+    public function usuarioAlteracao(array $data): void
     {
         $user = $this->Users
             ->find()
@@ -80,8 +87,6 @@ class WebhooksController extends AppController
             ->first();
 
         if (!$user) {
-            Log::debug('Usuário não encontrado para alteração');
-
             return;
         }
 
@@ -94,13 +99,13 @@ class WebhooksController extends AppController
 
         if (!$this->Users->save($user, [
             'fromWebhook' => true
-        ])) {
-
-            Log::debug(json_encode($user->getErrors()));
-        }
+        ]));
     }
 
-    public function usuarioExclusao($data)
+    /**
+     * @param array<string, mixed> $data
+     */
+    public function usuarioExclusao(array $data): void
     {
         $user = $this->Users
             ->find()
@@ -110,13 +115,7 @@ class WebhooksController extends AppController
             ->first();
 
         if (!$user) {
-            Log::debug('Usuário não encontrado para exclusão');
-
             return;
-        }
-
-        if (!$this->Users->delete($user)) {
-            Log::debug('Erro ao excluir usuário');
         }
     }
 }

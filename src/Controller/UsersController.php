@@ -3,11 +3,12 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Cake\Http\Response;
 /**
  * Users Controller
  *
  * @property \App\Model\Table\UsersTable $Users
- * @method \App\Model\Entity\User[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
+ * @method \App\Model\Entity\User[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array<string, mixed> $settings = [])
  */
 class UsersController extends AppController
 {
@@ -103,7 +104,7 @@ class UsersController extends AppController
         return $this->redirect(['action' => 'index']);
     }
 
-    public function login()
+    public function login(): ?Response
     {
         $this->Authorization->skipAuthorization();
         $this->request->allowMethod(['get', 'post']);
@@ -130,9 +131,11 @@ class UsersController extends AppController
 
             $this->Flash->set($message, ['plugin' => 'MetronicV4', 'key' => 'danger', 'element' => 'message']);
         }
+
+        return null;
     }
 
-    public function logout()
+    public function logout(): ?Response
     {
         $this->Authorization->skipAuthorization();
 
@@ -140,7 +143,7 @@ class UsersController extends AppController
         return $this->redirect(['action' => 'login']);
     }
 
-    public function register()
+    public function register(): ?Response
     {
         $this->Authorization->skipAuthorization();
 
@@ -166,9 +169,11 @@ class UsersController extends AppController
         }
 
         $this->set(compact('user'));
+
+        return null;
     }
 
-    public function forgotPassword()
+    public function forgotPassword(): ?Response
     {
         $this->Authorization->skipAuthorization();
 
@@ -196,6 +201,8 @@ class UsersController extends AppController
 
             $this->Flash->error('Email não encontrado');
         }
+
+        return null;
     }
 
     public function beforeFilter(\Cake\Event\EventInterface $event)

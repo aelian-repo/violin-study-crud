@@ -1,27 +1,40 @@
 <?php
 namespace App\Policy;
 
-use App\Model\Entity\Apostila;
 use Authorization\IdentityInterface;
+use Authentication\IdentityInterface as AuthenticationIdentityInterface;
+use App\Model\Entity\Apostila;
 
 class ApostilaPolicy {
-    public function canView($user, $apostila)
+    public function canView(IdentityInterface $user, Apostila $apostila): bool
     {
-        return $apostila->user_id === $user->getIdentifier();
+        /** @var \App\Model\Entity\User $userEntity */
+        $userEntity = $user->getOriginalData();
+
+        return $apostila->user_id === $userEntity->id;
     }
 
-    public function canEdit($user, $apostila)
+    public function canEdit(IdentityInterface $user, Apostila $apostila): bool
     {
-        return $apostila->user_id === $user->getIdentifier();
+        /** @var \App\Model\Entity\User $userEntity */
+        $userEntity = $user->getOriginalData();
+
+        return $apostila->user_id === $userEntity->id;
     }
 
-    public function canDelete($user, $apostila)
+    public function canDelete(IdentityInterface $user, Apostila $apostila): bool
     {
-        return $apostila->user_id === $user->getIdentifier();
+        /** @var \App\Model\Entity\User $userEntity */
+        $userEntity = $user->getOriginalData();
+
+        return $apostila->user_id === $userEntity->id;
     }
 
-    public function canAdd($user)
+    public function canAdd(IdentityInterface $user, Apostila $apostila): bool
     {
-        return true;
+        /** @var \App\Model\Entity\User $userEntity */
+        $userEntity = $user->getOriginalData();
+
+        return $apostila->user_id === $userEntity->id;
     }
 }

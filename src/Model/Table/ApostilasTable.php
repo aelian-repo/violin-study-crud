@@ -17,18 +17,18 @@ use Cake\Validation\Validator;
  * @property \App\Model\Table\UsersTable $Users
  *
  * @method \App\Model\Entity\Apostila newEmptyEntity()
- * @method \App\Model\Entity\Apostila newEntity(array $data, array $options = [])
- * @method \App\Model\Entity\Apostila[] newEntities(array $data, array $options = [])
+ * @method \App\Model\Entity\Apostila newEntity(array<string, mixed> $data, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\Apostila[] newEntities(array<int, array<string, mixed>> $data, array<string, mixed> $options = [])
  * @method \App\Model\Entity\Apostila get($primaryKey, $options = [])
  * @method \App\Model\Entity\Apostila findOrCreate($search, ?callable $callback = null, $options = [])
- * @method \App\Model\Entity\Apostila patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\Apostila[] patchEntities(iterable $entities, array $data, array $options = [])
+ * @method \App\Model\Entity\Apostila patchEntity(\Cake\Datasource\EntityInterface $entity, array<string, mixed> $data, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\Apostila[] patchEntities(iterable<\App\Model\Entity\Apostila> $entities, array<int, array<string, mixed>> $data, array<string, mixed> $options = [])
  * @method \App\Model\Entity\Apostila|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\Apostila saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Apostila[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\Apostila[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
- * @method \App\Model\Entity\Apostila[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\Apostila[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Apostila[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable<\App\Model\Entity\Apostila> $entities, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\Apostila[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable<\App\Model\Entity\Apostila> $entities, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\Apostila[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable<\App\Model\Entity\Apostila> $entities, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\Apostila[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable<\App\Model\Entity\Apostila> $entities, array<string, mixed> $options = [])
  *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
@@ -37,7 +37,7 @@ class ApostilasTable extends Table
     /**
      * Initialize method
      *
-     * @param array $config The configuration for the Table.
+     * @param array<string, mixed> $config The configuration for the Table.
      * @return void
      */
     public function initialize(array $config): void

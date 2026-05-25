@@ -47,7 +47,7 @@ class Sesso extends Entity
         'apostila' => true,
     ];
 
-    protected function _getDuracao()
+    protected function _getDuracao(): ?string
     {
         if (!$this->start_time || !$this->end_time) {
             return null;

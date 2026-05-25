@@ -13,6 +13,9 @@ use Authentication\PasswordHasher\DefaultPasswordHasher;
  * @property string $email
  * @property string $password
  * @property string|null $plain_password
+ * @property int|null $assinante_id
+ * @property int|null $usuario_assinante_id
+ * @property array<string, mixed> $usuario_assinante
  * @property \Cake\I18n\FrozenTime $created
  */
 class User extends Entity

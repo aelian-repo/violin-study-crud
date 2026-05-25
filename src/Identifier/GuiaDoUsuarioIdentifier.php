@@ -22,12 +22,15 @@ use Authentication\Identifier\Resolver\OrmResolver;
 use Authentication\Identifier\AbstractIdentifier;
 use Cake\Datasource\FactoryLocator;
 use App\Identifier\UsuarioAssinantes;
+use Cake\Datasource\EntityInterface;
 
 class GuiaDoUsuarioIdentifier extends AbstractIdentifier
 {
     use ResolverAwareTrait;
     /**
      * @inheritDoc
+     * @param array<string, mixed> $data
+     * @return \Cake\Datasource\EntityInterface|array<string, mixed>|null
      */
     public function identify(array $data)
     {
@@ -42,6 +45,7 @@ class GuiaDoUsuarioIdentifier extends AbstractIdentifier
                 if ($identity === true) {
                     $identity = $usuarioAssinante;
                 } else {
+                    /** @var \App\Model\Entity\User $identity */
                     $identity->usuario_assinante = $usuarioAssinante;
                 }
             } else {
@@ -52,6 +56,10 @@ class GuiaDoUsuarioIdentifier extends AbstractIdentifier
         return $identity;
     }
 
+    /**
+     * @param array<string, mixed> $data
+     * @return array<string, mixed>
+     */
     public function getFormUser(array $data): array
     {
         $user = [];
@@ -77,13 +85,14 @@ class GuiaDoUsuarioIdentifier extends AbstractIdentifier
         return $user;
     }
 
+    /**
+     * @param array<string, array<string, mixed>> $user
+     * @return array<string, mixed>|string
+     */
     public function login(array $user)
     {
         $usuarioTable = new UsuarioAssinantes();
         $usuarioLogado = $usuarioTable->login($user);
-        if ($usuarioLogado === null) {
-            return 'Não foi possível acessar. Tente novamente mais tarde.';
-        }
 
         if (!isset($usuarioLogado['UsuarioAssinante'])) {
             if (isset($usuarioLogado['erros'])) {
@@ -98,6 +107,10 @@ class GuiaDoUsuarioIdentifier extends AbstractIdentifier
         return $usuarioLogado;
     }
 
+    /**
+     * @param array<string, mixed> $data
+     * @return EntityInterface|true|null
+     */
     public function getUserEntity(array $data)
     {
         /** @var OrmResolver $resolver */

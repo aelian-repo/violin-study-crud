@@ -3,12 +3,14 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Cake\Http\Response;
+
 /**
  * Apostilas Controller
  *
  * @property \App\Model\Table\ApostilasTable $Apostilas
  * @property \Authorization\Controller\Component\AuthorizationComponent $Authorization
- * @method \App\Model\Entity\Apostila[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
+ * @method \App\Model\Entity\Apostila[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array<string, mixed> $settings = [])
  */
 class ApostilasController extends AppController
 {
@@ -88,7 +90,7 @@ class ApostilasController extends AppController
         $this->set(compact('apostila'));
     }
 
-    public function upload()
+    public function upload(): Response
     {
         $this->request->allowMethod(['post']);
         $this->autoRender = false;

@@ -8,16 +8,24 @@ use Cake\Utility\Inflector;
 
 class UsuarioAssinantes
 {
-    protected $params;
+    protected ?string $params = null;
 
-    public function login($usuarioAssinante) 
+    /**
+     * @param array<string, array<string, mixed>> $usuarioAssinante
+     * @return array<string, mixed>|null
+     */
+    public function login($usuarioAssinante): ?array
     {   
         $this->params = 'login';
     
         return $this->request('POST', $usuarioAssinante);    
     }
 
-    public function request($method, $resource = array()) 
+    /**
+     * @param array<string, mixed> $resource
+     * @return array<string, mixed>|null
+     */
+    public function request(string $method, array $resource = []): ?array
     {
         $resource = json_encode($resource);                                                                   
         $curl = curl_init($this->getUrl());
@@ -45,7 +53,7 @@ class UsuarioAssinantes
         return $response;                
     }       
     
-    public function getUrl()
+    public function getUrl(): string
     {
         $url = Configure::read('Onboarding.baseUrl');
         $path = 'api-usuario-assinantes';

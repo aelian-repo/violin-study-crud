@@ -6,27 +6,36 @@ use Authentication\IdentityInterface;
 
 class SessoPolicy
 {
-    public function canIndex($user, $resource)
+    public function canIndex(IdentityInterface $user, Sesso $sesso): bool
     {
         return true;
     }
 
-    public function canView(IdentityInterface $user, Sesso $sesso)
+    public function canView(IdentityInterface $user, Sesso $sesso): bool
     {
-        return $sesso->user_id === $user->getIdentifier();
+        /** @var \App\Model\Entity\User $userEntity */
+        $userEntity = $user->getOriginalData();
+
+        return $sesso->user_id === $userEntity->id;
     }
 
-    public function canEdit(IdentityInterface $user, Sesso $sesso)
+    public function canEdit(IdentityInterface $user, Sesso $sesso): bool
     {
-        return $sesso->user_id === $user->getIdentifier();
+        /** @var \App\Model\Entity\User $userEntity */
+        $userEntity = $user->getOriginalData();
+
+        return $sesso->user_id === $userEntity->id;
     }
 
-    public function canDelete(IdentityInterface $user, Sesso $sesso)
+    public function canDelete(IdentityInterface $user, Sesso $sesso): bool
     {
-        return $sesso->user_id === $user->getIdentifier();
+        /** @var \App\Model\Entity\User $userEntity */
+        $userEntity = $user->getOriginalData();
+
+        return $sesso->user_id === $userEntity->id;
     }
 
-    public function canAdd(IdentityInterface $user)
+    public function canAdd(IdentityInterface $user, Sesso $sesso): bool
     {
         return true;
     }

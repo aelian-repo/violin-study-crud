@@ -17,19 +17,19 @@ use Cake\Validation\Validator;
  * @property \App\Model\Table\UsersTable $Users
  *
  * @method \App\Model\Entity\Sesso newEmptyEntity()
- * @method \App\Model\Entity\Sesso newEntity(array $data, array $options = [])
- * @method \App\Model\Entity\Sesso[] newEntities(array $data, array $options = [])
+ * @method \App\Model\Entity\Sesso newEntity(array<string, mixed> $data, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\Sesso[] newEntities(array<int, array<string, mixed>> $data, array<string, mixed> $options = [])
  * @method \App\Model\Entity\Sesso get($primaryKey, $options = [])
  * @method \App\Model\Entity\Sesso findOrCreate($search, ?callable $callback = null, $options = [])
- * @method \App\Model\Entity\Sesso patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\Sesso[] patchEntities(iterable $entities, array $data, array $options = [])
- * @method \App\Model\Entity\Sesso|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Sesso saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Sesso[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\Sesso[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
- * @method \App\Model\Entity\Sesso[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\Sesso[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
- *
+ * @method \App\Model\Entity\Sesso patchEntity(\Cake\Datasource\EntityInterface $entity, array<string, mixed> $data, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\Sesso[] patchEntities(iterable<\App\Model\Entity\Sesso> $entities, array<int, array<string, mixed>> $data, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\Sesso|false save(\Cake\Datasource\EntityInterface $entity, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\Sesso saveOrFail(\Cake\Datasource\EntityInterface $entity, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\Sesso[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable<\App\Model\Entity\Sesso> $entities, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\Sesso[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable<\App\Model\Entity\Sesso> $entities, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\Sesso[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable<\App\Model\Entity\Sesso> $entities, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\Sesso[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable<\App\Model\Entity\Sesso> $entities, array<string, mixed> $options = [])
+ * 
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
 class SessoesTable extends Table
@@ -37,7 +37,7 @@ class SessoesTable extends Table
     /**
      * Initialize method
      *
-     * @param array $config The configuration for the Table.
+     * @param array<string, mixed> $config The configuration for the Table.
      * @return void
      */
     public function initialize(array $config): void

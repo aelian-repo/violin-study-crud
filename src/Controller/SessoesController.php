@@ -10,7 +10,7 @@ use Cake\I18n\FrozenDate;
  * Sessoes Controller
  *
  * @property \App\Model\Table\SessoesTable $Sessoes
- * @method \App\Model\Entity\Sesso[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
+ * @method \App\Model\Entity\Sesso[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array<string, mixed> $settings = [])
  */
 class SessoesController extends AppController
 {
