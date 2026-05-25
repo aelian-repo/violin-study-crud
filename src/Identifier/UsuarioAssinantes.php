@@ -27,8 +27,12 @@ class UsuarioAssinantes
      */
     public function request(string $method, array $resource = []): ?array
     {
-        $resource = json_encode($resource);                                                                   
+        $resource = json_encode($resource, JSON_THROW_ON_ERROR);                                                                   
         $curl = curl_init($this->getUrl());
+
+        if ($method === '') {
+            return null;
+        }
         curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $method);                                              
         curl_setopt($curl, CURLOPT_POSTFIELDS, $resource);
         curl_setopt($curl, CURLOPT_VERBOSE, false);
@@ -41,16 +45,23 @@ class UsuarioAssinantes
            'Content-Type: application/json',                                                         
            'Content-Length: ' . strlen($resource),                                                        
            'User-Agent: Aelian-GuiaDoUsuario-Plugin',
-        ));                                                                                           
+        )); 
+
         $response = curl_exec($curl);
-        if (curl_errno($curl)) {
-            $response = array('erros' => curl_error($curl));            
+
+        if ($response === false) {
+            $result = ['erros' => curl_error($curl)];
         } else {
-            $response = json_decode($response, true);
+            /** @var string $response */
+            $result = json_decode($response, true);
         }
+        if (!is_array($result)) {
+            return null;
+        }
+
         curl_close($curl);
 
-        return $response;                
+        return $result;                
     }       
     
     public function getUrl(): string

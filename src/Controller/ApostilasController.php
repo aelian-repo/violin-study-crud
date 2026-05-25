@@ -109,8 +109,15 @@ class ApostilasController extends AppController
 
         $this->request->getSession()->write('Upload.apostila', $nomeArquivo);
 
-        return $this->response->withType('application/json')
-            ->withStringBody(json_encode(['status' => 'ok']));
+        $json = json_encode(['status' => 'ok']);
+
+        if ($json === false) {
+            return $this->response->withStatus(500);
+        }
+
+        return $this->response
+            ->withType('application/json')
+            ->withStringBody($json);
     }
 
     /**

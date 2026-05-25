@@ -121,7 +121,10 @@ class GuiaDoUsuarioIdentifier extends AbstractIdentifier
             return true;
         }
 
-        $userTable = FactoryLocator::get('Table')->get($userModel);
+        /** @var \Cake\ORM\Locator\TableLocator $tableLocator */
+        $tableLocator = FactoryLocator::get('Table');
+
+        $userTable = $tableLocator->get($userModel);
         $usuarioAssinanteFields = $this->getConfig('fields.UsuarioAssinante');
         $assinanteFields = $this->getConfig('fields.Assinante');
         $conditions = [];
@@ -149,6 +152,7 @@ class GuiaDoUsuarioIdentifier extends AbstractIdentifier
         /** @var \Cake\ORM\Query $query */
         $query = $userTable->find();
 
+        /** @var \App\Model\Entity\User|null $entity */
         $entity = $query
             ->where($conditions)
             ->contain($contain)
