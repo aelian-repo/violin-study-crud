@@ -127,7 +127,7 @@ class SessoesTableTest extends TestCase
         ];
 
         $sessao = $this->Sessoes->newEntity($sessaoCriada);
-        
+
         $this->assertNotEmpty($sessao->getErrors());
     }
 
@@ -143,11 +143,11 @@ class SessoesTableTest extends TestCase
             'end_time' => '15:00:00',
             'conteudo' => 'Conteúdo 02',
             'objetivo' => 'Objetivo 02',
-        ];
+         ];
 
-        $sessao = $this->Sessoes->newEntity($sessaoCriada);
-        $result = $this->Sessoes->save($sessao);
+         $sessao = $this->Sessoes->newEntity($sessaoCriada);
+         $result = $this->Sessoes->save($sessao);
 
-        $this->assertFalse($result);
+         $this->assertFalse($result);
     }
 }

@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Test\TestCase\Controller;
 
-use App\Controller\SessoesController;
 use Cake\TestSuite\IntegrationTestTrait;
 use Cake\TestSuite\TestCase;
 
@@ -31,14 +30,14 @@ class SessoesControllerTest extends TestCase
     {
         $this->session([
             'Auth' => [
-                'id' => 1
-            ]
-        ]); 
+                'id' => 1,
+            ],
+        ]);
     }
 
     public function testIndex(): void
     {
-        $this->login();    
+        $this->login();
         $this->get('/sessoes');
 
         $this->assertResponseOk();
@@ -46,7 +45,7 @@ class SessoesControllerTest extends TestCase
 
     public function testView(): void
     {
-        $this->login();    
+        $this->login();
         $this->get('/sessoes/view/1');
 
         $this->assertResponseOk();
@@ -75,7 +74,7 @@ class SessoesControllerTest extends TestCase
             'start_time' => '10:00:00',
             'end_time' => '11:00:00',
             'conteudo' => 'abc',
-            'objetivo' => '123'
+            'objetivo' => '123',
         ];
 
         $this->post('/sessoes/add', $SessaoCriada);
@@ -100,7 +99,7 @@ class SessoesControllerTest extends TestCase
         $this->enableSecurityToken();
 
         $SessaoDeletada = [
-            'name' => 'Sessão 01'
+            'name' => 'Sessão 01',
         ];
 
         $this->post('/sessoes/delete/1', $SessaoDeletada);

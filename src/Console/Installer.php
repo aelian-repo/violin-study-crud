@@ -235,7 +235,7 @@ class Installer
         if ($content === false) {
             return;
         }
-        
+
         $content = str_replace('__APP_NAME__', $appName, $content, $count);
 
         if ($count == 0) {

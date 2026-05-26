@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
-use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -15,7 +14,6 @@ use Cake\Validation\Validator;
  * @property \App\Model\Table\SessoesTable&\Cake\ORM\Association\HasMany $Sessoes
  * @property \App\Model\Table\SessoesTable $Sessoes
  * @property \App\Model\Table\UsersTable $Users
- *
  * @method \App\Model\Entity\Apostila newEmptyEntity()
  * @method \App\Model\Entity\Apostila newEntity(array<string, mixed> $data, array<string, mixed> $options = [])
  * @method \App\Model\Entity\Apostila[] newEntities(array<int, array<string, mixed>> $data, array<string, mixed> $options = [])
@@ -29,7 +27,6 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\Apostila[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable<\App\Model\Entity\Apostila> $entities, array<string, mixed> $options = [])
  * @method \App\Model\Entity\Apostila[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable<\App\Model\Entity\Apostila> $entities, array<string, mixed> $options = [])
  * @method \App\Model\Entity\Apostila[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable<\App\Model\Entity\Apostila> $entities, array<string, mixed> $options = [])
- *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
 class ApostilasTable extends Table

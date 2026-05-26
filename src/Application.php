@@ -16,6 +16,15 @@ declare(strict_types=1);
  */
 namespace App;
 
+use Authentication\AuthenticationService;
+use Authentication\AuthenticationServiceInterface;
+use Authentication\AuthenticationServiceProviderInterface;
+use Authentication\Identifier\IdentifierInterface;
+use Authentication\Middleware\AuthenticationMiddleware;
+use Authorization\AuthorizationService;
+use Authorization\AuthorizationServiceInterface;
+use Authorization\AuthorizationServiceProviderInterface;
+use Authorization\Middleware\AuthorizationMiddleware;
 use Cake\Core\Configure;
 use Cake\Core\ContainerInterface;
 use Cake\Datasource\FactoryLocator;
@@ -27,18 +36,8 @@ use Cake\Http\MiddlewareQueue;
 use Cake\ORM\Locator\TableLocator;
 use Cake\Routing\Middleware\AssetMiddleware;
 use Cake\Routing\Middleware\RoutingMiddleware;
-use Authentication\Middleware\AuthenticationMiddleware;
-use Authentication\AuthenticationServiceProviderInterface;
-use Psr\Http\Message\ServerRequestInterface;
-use Authentication\AuthenticationService;
-use Authentication\AuthenticationServiceInterface;
-use Authorization\Middleware\AuthorizationMiddleware;
-use Authorization\AuthorizationServiceProviderInterface;
-use Authorization\AuthorizationService;
-use Authorization\AuthorizationServiceInterface;
-use Authentication\Identifier\IdentifierInterface;
-use App\Identifier\GuiaDoUsuarioIdentifier;
 use Cake\Routing\Router;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Application setup class.
@@ -46,9 +45,9 @@ use Cake\Routing\Router;
  * This defines the bootstrapping logic and middleware layers you
  * want to use in your application.
  */
-class Application extends BaseApplication
-    implements AuthenticationServiceProviderInterface,
-               AuthorizationServiceProviderInterface
+class Application extends BaseApplication implements
+    AuthenticationServiceProviderInterface,
+    AuthorizationServiceProviderInterface
 {
     /**
      * Load all the application configuration and bootstrap logic.
@@ -159,7 +158,7 @@ class Application extends BaseApplication
                 IdentifierInterface::CREDENTIAL_USERNAME => 'email',
                 IdentifierInterface::CREDENTIAL_PASSWORD => 'password',
             ],
-            'loginUrl' => Router::url('/users/login')
+            'loginUrl' => Router::url('/users/login'),
         ]);
 
         return $service;
