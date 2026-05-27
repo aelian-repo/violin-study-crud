@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use Authorization\Exception\ForbiddenException;
 use Cake\I18n\FrozenDate;
 
 /**
@@ -30,7 +29,7 @@ class SessoesController extends AppController
         $query = $this->Sessoes->find()
             ->where(['Sessoes.user_id' => $userId])
             ->contain(['Users', 'Apostilas']);
-        
+
         $sessoes = $this->paginate($query);
 
         $this->set(compact('sessoes'));
@@ -66,7 +65,6 @@ class SessoesController extends AppController
         $this->Authorization->authorize($sesso);
 
         if ($this->request->is('post')) {
-
             $data = $this->request->getData();
 
             if (!empty($data['sessao_date'])) {
@@ -82,6 +80,7 @@ class SessoesController extends AppController
 
             if ($this->Sessoes->save($sesso)) {
                 $this->Flash->success(__('Sessão salva com sucesso!'));
+
                 return $this->redirect(['action' => 'index']);
             }
 
@@ -116,7 +115,6 @@ class SessoesController extends AppController
         $this->Authorization->authorize($sesso);
 
         if ($this->request->is(['patch', 'post', 'put'])) {
-
             $data = $this->request->getData();
 
             if (!empty($data['sessao_date'])) {
@@ -130,6 +128,7 @@ class SessoesController extends AppController
 
             if ($this->Sessoes->save($sesso)) {
                 $this->Flash->success(__('Sessão atualizada com sucesso!'));
+
                 return $this->redirect(['action' => 'index']);
             }
 

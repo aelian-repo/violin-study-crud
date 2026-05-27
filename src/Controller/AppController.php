@@ -18,7 +18,6 @@ namespace App\Controller;
 
 use Cake\Controller\Controller;
 use Cake\Event\EventInterface;
-use MetronicV4\View\Helper\MetronicHelper;
 
 /**
  * Application Controller

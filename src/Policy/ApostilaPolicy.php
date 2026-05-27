@@ -1,11 +1,13 @@
 <?php
+declare(strict_types=1);
+
 namespace App\Policy;
 
-use Authorization\IdentityInterface;
-use Authentication\IdentityInterface as AuthenticationIdentityInterface;
 use App\Model\Entity\Apostila;
+use Authorization\IdentityInterface;
 
-class ApostilaPolicy {
+class ApostilaPolicy
+{
     public function canView(IdentityInterface $user, Apostila $apostila): bool
     {
         /** @var \App\Model\Entity\User $userEntity */

@@ -22,9 +22,9 @@ class WebhooksControllerTest extends TestCase
             'email' => 'criar@email.com',
             'assinantes' => [
                 [
-                    'id' => 123
-                ]
-            ]
+                    'id' => 123,
+                ],
+            ],
         ];
 
         $this->post('/webhooks/index', $data);
@@ -35,7 +35,7 @@ class WebhooksControllerTest extends TestCase
 
         $user = $users->find()
             ->where([
-                'usuario_assinante_id' => 999
+                'usuario_assinante_id' => 999,
             ])
             ->first();
 
@@ -53,7 +53,7 @@ class WebhooksControllerTest extends TestCase
         $user = $users->newEntity([
             'email' => 'antigo@email.com',
             'password' => '123aBc',
-            'usuario_assinante_id' => 555
+            'usuario_assinante_id' => 555,
         ]);
 
         $users->save($user);
@@ -61,7 +61,7 @@ class WebhooksControllerTest extends TestCase
         $data = [
             'evento' => 'usuario_alteracao',
             'id' => 555,
-            'email' => 'novo@email.com'
+            'email' => 'novo@email.com',
         ];
 
         $this->post('/webhooks/index', $data);
@@ -70,7 +70,7 @@ class WebhooksControllerTest extends TestCase
 
         $updatedUser = $users->find()
             ->where([
-                'usuario_assinante_id' => 555
+                'usuario_assinante_id' => 555,
             ])
             ->first();
 
@@ -87,14 +87,14 @@ class WebhooksControllerTest extends TestCase
         $user = $users->newEntity([
             'email' => 'exclusao@email.com',
             'password' => '123Abc',
-            'usuario_assinante_id' => 777
+            'usuario_assinante_id' => 777,
         ]);
 
         $users->save($user);
 
         $data = [
             'evento' => 'usuario_exclusao',
-            'id' => 777
+            'id' => 777,
         ];
 
         $this->post('/webhooks/index', $data);
@@ -103,7 +103,7 @@ class WebhooksControllerTest extends TestCase
 
         $deletedUser = $users->find()
             ->where([
-                'usuario_assinante_id' => 777
+                'usuario_assinante_id' => 777,
             ])
             ->first();
 

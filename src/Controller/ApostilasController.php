@@ -24,12 +24,12 @@ class ApostilasController extends AppController
         $this->Authorization->skipAuthorization();
 
         $this->viewBuilder()->setLayout('MetronicV4.demo5');
-        
+
         $userId = $this->request->getAttribute('identity')->getIdentifier();
 
         $query = $this->Apostilas->find()
             ->where(['Apostilas.user_id' => $userId]);
-        
+
         $apostilas = $this->paginate($query);
         $this->set(compact('apostilas'));
     }
@@ -64,7 +64,6 @@ class ApostilasController extends AppController
         $this->Authorization->authorize($apostila);
 
         if ($this->request->is('post')) {
-
             $apostila = $this->Apostilas->patchEntity($apostila, $this->request->getData());
 
             $apostila->user_id = $this->request->getAttribute('identity')->getIdentifier();
@@ -76,7 +75,6 @@ class ApostilasController extends AppController
             }
 
             if ($this->Apostilas->save($apostila)) {
-
                 $this->request->getSession()->delete('Upload.apostila');
 
                 $this->Flash->success(__('Apostila salva com sucesso!'));
@@ -134,7 +132,6 @@ class ApostilasController extends AppController
         $this->Authorization->authorize($apostila);
 
         if ($this->request->is(['patch', 'post', 'put'])) {
-
             $apostila = $this->Apostilas->patchEntity($apostila, $this->request->getData());
 
             $arquivo = $this->request->getSession()->read('Upload.apostila');

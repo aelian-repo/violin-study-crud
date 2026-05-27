@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Test\TestCase\Controller;
 
-use App\Controller\ApostilasController;
 use Cake\TestSuite\IntegrationTestTrait;
 use Cake\TestSuite\TestCase;
 
@@ -23,16 +22,16 @@ class ApostilasControllerTest extends TestCase
      */
     protected $fixtures = [
         'app.Apostilas',
-        'app.Users'
+        'app.Users',
     ];
 
     public function login(): void
     {
         $this->session([
             'Auth' => [
-                'id' => 1
-            ]
-        ]); 
+                'id' => 1,
+            ],
+        ]);
     }
 
     public function testIndex(): void
@@ -68,7 +67,7 @@ class ApostilasControllerTest extends TestCase
         $origem = TESTS . 'Fixture/files/test.pdf';
         $destino = TESTS . 'Fixture/files/temp.pdf';
         copy($origem, $destino);
-        
+
         $pdf = new \Laminas\Diactoros\UploadedFile(
             $destino,
             1000,
@@ -79,15 +78,15 @@ class ApostilasControllerTest extends TestCase
 
         $this->configRequest([
             'files' => [
-                'arquivo' => $pdf
-            ]
+                'arquivo' => $pdf,
+            ],
         ]);
 
         $ApostilaCriada = [
             'user_id' => 1,
             'name' => 'Apostila Teste',
             'nivel' => 'Iniciante',
-            'arquivo' => $pdf
+            'arquivo' => $pdf,
         ];
 
         $this->post('/apostilas/add', $ApostilaCriada);

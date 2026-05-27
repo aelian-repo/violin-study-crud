@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
-use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -15,7 +14,6 @@ use Cake\Validation\Validator;
  * @property \App\Model\Table\ApostilasTable&\Cake\ORM\Association\BelongsTo $Apostilas
  * @property \App\Model\Table\ApostilasTable $Apostilas
  * @property \App\Model\Table\UsersTable $Users
- *
  * @method \App\Model\Entity\Sesso newEmptyEntity()
  * @method \App\Model\Entity\Sesso newEntity(array<string, mixed> $data, array<string, mixed> $options = [])
  * @method \App\Model\Entity\Sesso[] newEntities(array<int, array<string, mixed>> $data, array<string, mixed> $options = [])
@@ -29,7 +27,6 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\Sesso[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable<\App\Model\Entity\Sesso> $entities, array<string, mixed> $options = [])
  * @method \App\Model\Entity\Sesso[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable<\App\Model\Entity\Sesso> $entities, array<string, mixed> $options = [])
  * @method \App\Model\Entity\Sesso[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable<\App\Model\Entity\Sesso> $entities, array<string, mixed> $options = [])
- * 
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
 class SessoesTable extends Table
@@ -89,14 +86,14 @@ class SessoesTable extends Table
             ->time('start_time')
             ->allowEmptyTime('start_time')
             ->add('start_time', 'HoraInicial18', [
-                'rule' => function($value, $context) {
+                'rule' => function ($value, $context) {
 
-                    if (strtotime($value) < strtotime("18:00")) {
+                    if (strtotime($value) < strtotime('18:00')) {
                         return true;
                     }
 
                     return 'Hora inicial não pode ser maior que 18:00';
-                }
+                },
             ]);
 
         $validator
@@ -110,7 +107,7 @@ class SessoesTable extends Table
                     }
 
                     return 'Hora final não pode ser menor que a hora inicial';
-                }
+                },
             ]);
 
         $validator
@@ -137,9 +134,9 @@ class SessoesTable extends Table
         $rules->add($rules->existsIn('apostila_id', 'Apostilas'), ['errorField' => 'apostila_id']);
         $rules->add(function ($entity, $options) {
 
-        /** @var \App\Model\Entity\Sesso $entity */
+            /** @var \App\Model\Entity\Sesso $entity */
 
-        /** @var \App\Model\Entity\Sesso|null $ultimaSessao */
+            /** @var \App\Model\Entity\Sesso|null $ultimaSessao */
 
             $ultimaSessao = $this->find()
                 ->where(['user_id' => $entity->user_id])
@@ -149,8 +146,8 @@ class SessoesTable extends Table
             if (!$ultimaSessao) {
                 return true;
             }
-            
-            if($entity->sessao_date > $ultimaSessao->sessao_date) {
+
+            if ($entity->sessao_date > $ultimaSessao->sessao_date) {
                 return true;
             }
 
@@ -161,7 +158,7 @@ class SessoesTable extends Table
             return false;
         }, 'SessaoAposOutra', [
             'errorField' => 'start_time',
-            'message' => 'Hora ou data deve ser maior que a da última sessão criada'
+            'message' => 'Hora ou data deve ser maior que a da última sessão criada',
         ]);
 
         return $rules;

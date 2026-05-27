@@ -3,17 +3,15 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
-use Cake\ORM\Query;
+use App\Model\Entity\User;
+use ArrayObject;
+use Cake\Core\Configure;
+use Cake\Event\EventInterface;
+use Cake\Http\Client;
+use Cake\Log\Log;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
-use Authentication\PasswordHasher\DefaultPasswordHasher;
-use Cake\Event\EventInterface;
-use ArrayObject;
-use App\Model\Entity\User;
-use Cake\Log\Log;
-use Cake\Http\Client;
-use Cake\Core\Configure;
 
 /**
  * Users Model
@@ -31,7 +29,6 @@ use Cake\Core\Configure;
  * @method \App\Model\Entity\User[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable<\App\Model\Entity\User> $entities, array<string, mixed> $options = [])
  * @method \App\Model\Entity\User[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable<\App\Model\Entity\User> $entities, array<string, mixed> $options = [])
  * @method \App\Model\Entity\User[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable<\App\Model\Entity\User> $entities, array<string, mixed> $options = [])
- *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
 class UsersTable extends Table
@@ -69,7 +66,7 @@ class UsersTable extends Table
             ->notEmptyString('email', 'O email é obrigatório')
             ->add('email', 'NotGmail', [
                 'rule' => ['custom', '/@(?!gmail\.com$).+/i'],
-                'message' => '@gmail.com não é permitido'
+                'message' => '@gmail.com não é permitido',
             ]);
 
         $validator
@@ -79,7 +76,7 @@ class UsersTable extends Table
             ->notEmptyString('password', 'A senha é obrigatória')
             ->add('password', 'letraNumero', [
                 'rule' => ['custom', '/^(?=.*[A-Za-z])(?=.*\d).+$/'],
-                'message' => 'A senha precisa ter ao menos 1 letra e 1 número'
+                'message' => 'A senha precisa ter ao menos 1 letra e 1 número',
             ]);
 
         return $validator;
@@ -110,39 +107,39 @@ class UsersTable extends Table
             if (!empty($options['fromWebhook'])) {
                 return;
             }
-            
-            if($entity->isNew()) {
-            
-                if(!empty($entity->assinante_id) || !empty($entity->usuario_assinante_id)) {
+
+            if ($entity->isNew()) {
+                if (!empty($entity->assinante_id) || !empty($entity->usuario_assinante_id)) {
                     return;
                 }
 
                 $assinanteId = $this->cadastrarAssinante($entity);
 
-                if(!$assinanteId) {
+                if (!$assinanteId) {
                     Log::error('Erro: assinante não criado');
+
                     return;
                 }
 
                 $usuarioAssinanteId = $this->cadastrarUsuarioAssinante($entity);
 
-                if(!$usuarioAssinanteId) {
+                if (!$usuarioAssinanteId) {
                     Log::error('Erro: usuario_assinante não criado');
+
                     return;
                 }
             }
 
-            if(!$entity->isDirty('plain_password')) {
+            if (!$entity->isDirty('plain_password')) {
                 return;
             }
 
-            if(empty($entity->usuario_assinante_id)) {
+            if (empty($entity->usuario_assinante_id)) {
                 return;
             }
 
             $this->alterarSenha($entity);
-
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             Log::error('Erro integração onboarding: ' . $e->getMessage());
         }
     }
@@ -162,7 +159,7 @@ class UsersTable extends Table
 
         $data = [
             'codigo' => $entity->email,
-            'nome' => $entity->email
+            'nome' => $entity->email,
         ];
 
         $url = $this->getOnboardingUrl('api-assinantes.json');
@@ -171,8 +168,9 @@ class UsersTable extends Table
             'type' => 'json',
         ]);
 
-        if(!$response->isOk()) {
+        if (!$response->isOk()) {
             Log::error('Erro ao criar assinante: ' . $response->getStatusCode());
+
             return null;
         }
 
@@ -183,7 +181,7 @@ class UsersTable extends Table
 
         $this->save($entity, [
             'callbacks' => false,
-            'checkRules' => false
+            'checkRules' => false,
         ]);
 
         return $assinanteId;
@@ -195,26 +193,28 @@ class UsersTable extends Table
 
         $data = [
             'login' => $entity->email,
-            'nome'  => $entity->email,
+            'nome' => $entity->email,
             'senha' => $entity->plain_password,
-            'email' => $entity->email
+            'email' => $entity->email,
         ];
 
         $url = $this->getOnboardingUrl('api-usuario-assinantes.json');
 
         $response = $http->post($url, $data, [
-            'type' => 'json'
+            'type' => 'json',
         ]);
-        
-        if(!$response->isOk()) {
+
+        if (!$response->isOk()) {
             Log::error('Erro ao criar usuario_assinante: ' . $response->getStatusCode());
+
             return null;
         }
 
         $id = $response->getJson();
 
-        if(empty($id['id'])) {
+        if (empty($id['id'])) {
             Log::error('Resposta sem o ID do usuario_assinante');
+
             return null;
         }
 
@@ -225,7 +225,7 @@ class UsersTable extends Table
 
         $this->save($entity, [
             'callbacks' => false,
-            'checkRules' => false
+            'checkRules' => false,
         ]);
 
         return $usuarioAssinanteId;
@@ -236,18 +236,19 @@ class UsersTable extends Table
         $http = new Client();
 
         $data = [
-            'senha' => $entity->plain_password
+            'senha' => $entity->plain_password,
         ];
 
         $id = $entity->usuario_assinante_id;
 
         $url = $this->getOnboardingUrl("api-usuarios-assinantes/{$id}.json");
         $response = $http->post($url, $data, [
-            'type' => 'json'
+            'type' => 'json',
         ]);
 
-        if(!$response->isOk()) {
+        if (!$response->isOk()) {
             Log::error('Erro ao alterar senha: ' . $response->getStatusCode());
+
             return null;
         }
 

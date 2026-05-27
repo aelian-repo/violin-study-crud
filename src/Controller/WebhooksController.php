@@ -4,13 +4,11 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use Cake\Event\EventInterface;
-use Cake\Log\Log;
-use Cake\Utility\Text;
 use Cake\Http\Response;
 
 /**
-* @property \App\Model\Table\UsersTable $Users
-*/
+ * @property \App\Model\Table\UsersTable $Users
+ */
 class WebhooksController extends AppController
 {
     public function initialize(): void
@@ -42,11 +40,9 @@ class WebhooksController extends AppController
 
         if ($evento === 'usuario_criacao') {
             $this->usuarioCriacao($data);
-        }
-        elseif ($evento === 'usuario_alteracao') {
+        } elseif ($evento === 'usuario_alteracao') {
             $this->usuarioAlteracao($data);
-        }
-        elseif ($evento === 'usuario_exclusao') {
+        } elseif ($evento === 'usuario_exclusao') {
             $this->usuarioExclusao($data);
         }
 
@@ -66,11 +62,11 @@ class WebhooksController extends AppController
             'email' => $data['email'],
             'password' => $password,
             'usuario_assinante_id' => $data['id'],
-            'assinante_id' => $data['assinantes'][0]['id']
+            'assinante_id' => $data['assinantes'][0]['id'],
         ]);
 
         $this->Users->save($user, [
-            'fromWebhook' => true
+            'fromWebhook' => true,
         ]);
     }
 
@@ -82,7 +78,7 @@ class WebhooksController extends AppController
         $user = $this->Users
             ->find()
             ->where([
-                'usuario_assinante_id' => $data['id']
+                'usuario_assinante_id' => $data['id'],
             ])
             ->first();
 
@@ -97,9 +93,12 @@ class WebhooksController extends AppController
             $user->password = $data['senha'];
         }
 
-        if (!$this->Users->save($user, [
-            'fromWebhook' => true
-        ]));
+        if (
+            !$this->Users->save($user, [
+            'fromWebhook' => true,
+            ])
+        ) {
+        }
     }
 
     /**
@@ -110,7 +109,7 @@ class WebhooksController extends AppController
         $user = $this->Users
             ->find()
             ->where([
-                'usuario_assinante_id' => $data['id']
+                'usuario_assinante_id' => $data['id'],
             ])
             ->first();
 

@@ -25,7 +25,7 @@ class ApostilasTableTest extends TestCase
      */
     protected $fixtures = [
         'app.Apostilas',
-        'app.Users'
+        'app.Users',
     ];
 
     /**
@@ -59,7 +59,7 @@ class ApostilasTableTest extends TestCase
             'name' => 'Suzuki Vol.2',
             'nivel' => 'Intermediario',
             'arquivo' => 'Suzuki Violin Method - Vol. 02.pdf',
-            'created' => '2026-04-15 12:14:10'
+            'created' => '2026-04-15 12:14:10',
         ];
 
         $apostila = $this->Apostilas->newEntity($apostilaCriada);
@@ -75,7 +75,7 @@ class ApostilasTableTest extends TestCase
             'name' => 'Suzuki Vol.2',
             'nivel' => 'Intermediario',
             'arquivo' => 'Suzuki Violin Method - Vol. 01.pdf',
-            'created' => '2026-04-15 12:14:10'
+            'created' => '2026-04-15 12:14:10',
         ];
 
         $apostila = $this->Apostilas->newEntity($apostilaCriada);

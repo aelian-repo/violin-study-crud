@@ -14,9 +14,9 @@ class UsersControllerTest extends TestCase
     {
         $this->session([
             'Auth' => [
-                'id' => 1
-            ]
-        ]); 
+                'id' => 1,
+            ],
+        ]);
     }
 
     public function testIndex(): void

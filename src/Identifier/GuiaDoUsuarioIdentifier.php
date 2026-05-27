@@ -16,19 +16,15 @@ declare(strict_types=1);
  */
 namespace App\Identifier;
 
-use Authentication\Identifier\Resolver\ResolverAwareTrait;
-use Authentication\Identifier\Resolver\ResolverInterface;
-use Authentication\Identifier\Resolver\OrmResolver;
 use Authentication\Identifier\AbstractIdentifier;
+use Authentication\Identifier\Resolver\ResolverAwareTrait;
 use Cake\Datasource\FactoryLocator;
-use App\Identifier\UsuarioAssinantes;
-use Cake\Datasource\EntityInterface;
 
 class GuiaDoUsuarioIdentifier extends AbstractIdentifier
 {
     use ResolverAwareTrait;
+
     /**
-     * @inheritDoc
      * @param array<string, mixed> $data
      * @return \Cake\Datasource\EntityInterface|array<string, mixed>|null
      */
@@ -109,11 +105,11 @@ class GuiaDoUsuarioIdentifier extends AbstractIdentifier
 
     /**
      * @param array<string, mixed> $data
-     * @return EntityInterface|true|null
+     * @return \Cake\Datasource\EntityInterface|true|null
      */
     public function getUserEntity(array $data)
     {
-        /** @var OrmResolver $resolver */
+        /** @var \Authentication\Identifier\Resolver\OrmResolver $resolver */
         $resolver = $this->getResolver();
 
         $userModel = $resolver->getConfig('userModel');
@@ -146,7 +142,7 @@ class GuiaDoUsuarioIdentifier extends AbstractIdentifier
             }
         }
         $entity = $userTable->newEmptyEntity();
-        
+
         $contain = $resolver->getConfig('contain');
 
         /** @var \Cake\ORM\Query $query */

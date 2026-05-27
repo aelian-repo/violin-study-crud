@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use Cake\Http\Response;
+
 /**
  * Users Controller
  *
@@ -108,20 +109,21 @@ class UsersController extends AppController
     {
         $this->Authorization->skipAuthorization();
         $this->request->allowMethod(['get', 'post']);
-        
+
         $this->viewBuilder()->setLayout('MetronicV4.login');
 
         $result = $this->Authentication->getResult();
 
-        if($result !== null && $result->isValid()) {
+        if ($result !== null && $result->isValid()) {
             $redirect = $this->request->getQuery('redirect', [
                 'controller' => 'Sessoes',
                 'action' => 'index',
             ]);
 
-            if($redirect === null) {
+            if ($redirect === null) {
                 return null;
             }
+
             return $this->redirect($redirect);
         }
 
@@ -143,6 +145,7 @@ class UsersController extends AppController
         $this->Authorization->skipAuthorization();
 
         $this->Authentication->logout();
+
         return $this->redirect(['action' => 'login']);
     }
 
@@ -165,6 +168,7 @@ class UsersController extends AppController
 
             if ($this->Users->save($user)) {
                 $this->Flash->success('Usuário cadastrado!');
+
                 return $this->redirect(['action' => 'login']);
             }
 
@@ -184,20 +188,21 @@ class UsersController extends AppController
             ->setLayout('MetronicV4.login')
             ->setTemplate('forgot_password');
 
-        if($this->request->is('post')) {
+        if ($this->request->is('post')) {
             $email = $this->request->getData('email');
 
             $user = $this->Users->find()
                 ->where(['email' => $email])
                 ->first();
-            
+
             if ($user) {
                 /** @var \App\Model\Entity\User $user */
-                
+
                 $user->password = $this->request->getData('new_password');
 
                 if ($this->Users->save($user)) {
                     $this->Flash->success('Senha redefinida!');
+
                     return $this->redirect(['action' => 'login']);
                 }
             }
@@ -215,7 +220,7 @@ class UsersController extends AppController
         $this->Authentication->addUnauthenticatedActions([
             'login',
             'register',
-            'forgotPassword'
+            'forgotPassword',
         ]);
     }
 }
