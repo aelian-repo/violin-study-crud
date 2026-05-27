@@ -18,15 +18,19 @@ namespace App\Identifier;
 
 use Authentication\Identifier\Resolver\ResolverAwareTrait;
 use Authentication\Identifier\Resolver\ResolverInterface;
+use Authentication\Identifier\Resolver\OrmResolver;
 use Authentication\Identifier\AbstractIdentifier;
 use Cake\Datasource\FactoryLocator;
 use App\Identifier\UsuarioAssinantes;
+use Cake\Datasource\EntityInterface;
 
 class GuiaDoUsuarioIdentifier extends AbstractIdentifier
 {
     use ResolverAwareTrait;
     /**
      * @inheritDoc
+     * @param array<string, mixed> $data
+     * @return \Cake\Datasource\EntityInterface|array<string, mixed>|null
      */
     public function identify(array $data)
     {
@@ -41,6 +45,7 @@ class GuiaDoUsuarioIdentifier extends AbstractIdentifier
                 if ($identity === true) {
                     $identity = $usuarioAssinante;
                 } else {
+                    /** @var \App\Model\Entity\User $identity */
                     $identity->usuario_assinante = $usuarioAssinante;
                 }
             } else {
@@ -51,6 +56,10 @@ class GuiaDoUsuarioIdentifier extends AbstractIdentifier
         return $identity;
     }
 
+    /**
+     * @param array<string, mixed> $data
+     * @return array<string, mixed>
+     */
     public function getFormUser(array $data): array
     {
         $user = [];
@@ -76,13 +85,14 @@ class GuiaDoUsuarioIdentifier extends AbstractIdentifier
         return $user;
     }
 
+    /**
+     * @param array<string, array<string, mixed>> $user
+     * @return array<string, mixed>|string
+     */
     public function login(array $user)
     {
         $usuarioTable = new UsuarioAssinantes();
         $usuarioLogado = $usuarioTable->login($user);
-        if ($usuarioLogado === null) {
-            return 'Não foi possível acessar. Tente novamente mais tarde.';
-        }
 
         if (!isset($usuarioLogado['UsuarioAssinante'])) {
             if (isset($usuarioLogado['erros'])) {
@@ -97,14 +107,24 @@ class GuiaDoUsuarioIdentifier extends AbstractIdentifier
         return $usuarioLogado;
     }
 
+    /**
+     * @param array<string, mixed> $data
+     * @return EntityInterface|true|null
+     */
     public function getUserEntity(array $data)
     {
-        $userModel = $this->getResolver()->getConfig('userModel');
+        /** @var OrmResolver $resolver */
+        $resolver = $this->getResolver();
+
+        $userModel = $resolver->getConfig('userModel');
         if (empty($userModel)) {
             return true;
         }
 
-        $userTable = FactoryLocator::get('Table')->get($userModel);
+        /** @var \Cake\ORM\Locator\TableLocator $tableLocator */
+        $tableLocator = FactoryLocator::get('Table');
+
+        $userTable = $tableLocator->get($userModel);
         $usuarioAssinanteFields = $this->getConfig('fields.UsuarioAssinante');
         $assinanteFields = $this->getConfig('fields.Assinante');
         $conditions = [];
@@ -127,8 +147,13 @@ class GuiaDoUsuarioIdentifier extends AbstractIdentifier
         }
         $entity = $userTable->newEmptyEntity();
         
-        $contain = $this->getResolver()->getConfig('contain');
-        $entity = $userTable->find()
+        $contain = $resolver->getConfig('contain');
+
+        /** @var \Cake\ORM\Query $query */
+        $query = $userTable->find();
+
+        /** @var \App\Model\Entity\User|null $entity */
+        $entity = $query
             ->where($conditions)
             ->contain($contain)
             ->first();

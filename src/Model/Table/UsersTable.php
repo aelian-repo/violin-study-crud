@@ -10,6 +10,7 @@ use Cake\Validation\Validator;
 use Authentication\PasswordHasher\DefaultPasswordHasher;
 use Cake\Event\EventInterface;
 use ArrayObject;
+use App\Model\Entity\User;
 use Cake\Log\Log;
 use Cake\Http\Client;
 use Cake\Core\Configure;
@@ -18,18 +19,18 @@ use Cake\Core\Configure;
  * Users Model
  *
  * @method \App\Model\Entity\User newEmptyEntity()
- * @method \App\Model\Entity\User newEntity(array $data, array $options = [])
- * @method \App\Model\Entity\User[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\User get($primaryKey, $options = [])
- * @method \App\Model\Entity\User findOrCreate($search, ?callable $callback = null, $options = [])
- * @method \App\Model\Entity\User patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\User[] patchEntities(iterable $entities, array $data, array $options = [])
- * @method \App\Model\Entity\User|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\User saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\User[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\User[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
- * @method \App\Model\Entity\User[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\User[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
+ * @method \App\Model\Entity\User newEntity(array<string, mixed> $data, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\User[] newEntities(array<int, array<string, mixed>> $data, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\User get($primaryKey, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\User findOrCreate(array<string, mixed> $search, ?callable $callback = null, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\User patchEntity(\Cake\Datasource\EntityInterface $entity, array<string, mixed> $data, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\User[] patchEntities(iterable<\App\Model\Entity\User> $entities, array<int, array<string, mixed>> $data, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\User|false save(\Cake\Datasource\EntityInterface $entity, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\User saveOrFail(\Cake\Datasource\EntityInterface $entity, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\User[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable<\App\Model\Entity\User> $entities, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\User[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable<\App\Model\Entity\User> $entities, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\User[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable<\App\Model\Entity\User> $entities, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\User[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable<\App\Model\Entity\User> $entities, array<string, mixed> $options = [])
  *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
@@ -38,7 +39,7 @@ class UsersTable extends Table
     /**
      * Initialize method
      *
-     * @param array $config The configuration for the Table.
+     * @param array<string, mixed> $config The configuration for the Table.
      * @return void
      */
     public function initialize(array $config): void
@@ -98,7 +99,12 @@ class UsersTable extends Table
         return $rules;
     }
 
-    public function afterSave(EventInterface $event, $entity, ArrayObject $options)
+    /**
+     * @param \Cake\Event\EventInterface<\App\Model\Table\UsersTable> $event
+     * @param \App\Model\Entity\User $entity
+     * @param \ArrayObject<string, mixed> $options
+     */
+    public function afterSave(EventInterface $event, $entity, ArrayObject $options): void
     {
         try {
             if (!empty($options['fromWebhook'])) {
@@ -141,7 +147,7 @@ class UsersTable extends Table
         }
     }
 
-    public function getOnboardingUrl($path = '')
+    public function getOnboardingUrl(string $path): string
     {
         $baseUrl = Configure::read('Onboarding.baseUrl');
         $versao = Configure::read('App.onboardingVersao');
@@ -150,7 +156,7 @@ class UsersTable extends Table
         return $baseUrl . $versao . '/' . $chave . '/' . $path;
     }
 
-    public function cadastrarAssinante($entity)
+    public function cadastrarAssinante(User $entity): ?int
     {
         $http = new Client();
 
@@ -183,7 +189,7 @@ class UsersTable extends Table
         return $assinanteId;
     }
 
-    public function cadastrarUsuarioAssinante($entity)
+    public function cadastrarUsuarioAssinante(User $entity): ?int
     {
         $http = new Client();
 
@@ -225,7 +231,7 @@ class UsersTable extends Table
         return $usuarioAssinanteId;
     }
 
-    public function alterarSenha($entity) 
+    public function alterarSenha(User $entity): ?bool
     {
         $http = new Client();
 

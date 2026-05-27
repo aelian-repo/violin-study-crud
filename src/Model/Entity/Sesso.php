@@ -47,14 +47,14 @@ class Sesso extends Entity
         'apostila' => true,
     ];
 
-    protected function _getDuracao()
+    protected function _getDuracao(): ?string
     {
         if (!$this->start_time || !$this->end_time) {
             return null;
         }
 
-        $inicio = strtotime($this->start_time);
-        $fim = strtotime($this->end_time);
+        $inicio = strtotime((string)$this->start_time);
+        $fim = strtotime((string)$this->end_time);
 
         $diff = $fim - $inicio;
 

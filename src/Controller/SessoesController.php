@@ -10,7 +10,7 @@ use Cake\I18n\FrozenDate;
  * Sessoes Controller
  *
  * @property \App\Model\Table\SessoesTable $Sessoes
- * @method \App\Model\Entity\Sesso[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
+ * @method \App\Model\Entity\Sesso[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array<string, mixed> $settings = [])
  */
 class SessoesController extends AppController
 {
@@ -70,9 +70,9 @@ class SessoesController extends AppController
             $data = $this->request->getData();
 
             if (!empty($data['sessao_date'])) {
-                $data['sessao_date'] = FrozenDate::createFromFormat(
-                    'd/m/Y',
-                    $data['sessao_date']
+                $data['sessao_date'] = FrozenDate::parseDate(
+                    $data['sessao_date'],
+                    'dd/MM/yyyy'
                 );
             }
 
@@ -108,8 +108,9 @@ class SessoesController extends AppController
     {
         $sesso = $this->Sessoes->get($id);
 
+        $sessaoDate = null;
         if (!empty($sesso->sessao_date)) {
-            $sesso->sessao_date = $sesso->sessao_date->format('d/m/Y');
+            $sessaoDate = $sesso->sessao_date->format('d/m/Y');
         }
 
         $this->Authorization->authorize($sesso);
@@ -119,9 +120,9 @@ class SessoesController extends AppController
             $data = $this->request->getData();
 
             if (!empty($data['sessao_date'])) {
-                $data['sessao_date'] = FrozenDate::createFromFormat(
-                    'd/m/Y',
-                    $data['sessao_date']
+                $data['sessao_date'] = FrozenDate::parseDate(
+                    $data['sessao_date'],
+                    'dd/MM/yyyy'
                 );
             }
 
