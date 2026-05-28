@@ -70,7 +70,7 @@ class SessoesControllerTest extends TestCase
             'user_id' => 1,
             'apostila_id' => 1,
             'name' => 'Sessão 1',
-            'sessao_date' => '2026-03-10',
+            'sessao_date' => '10-03-2026',
             'start_time' => '10:00:00',
             'end_time' => '11:00:00',
             'conteudo' => 'abc',

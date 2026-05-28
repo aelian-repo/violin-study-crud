@@ -15,10 +15,7 @@ class SessoPolicy
 
     public function canView(IdentityInterface $user, Sesso $sesso): bool
     {
-        /** @var \App\Model\Entity\User $userEntity */
-        $userEntity = $user->getOriginalData();
-
-        return $sesso->user_id === $userEntity->id;
+        return $sesso->user_id === $user->getIdentifier();
     }
 
     public function canEdit(IdentityInterface $user, Sesso $sesso): bool
@@ -31,10 +28,7 @@ class SessoPolicy
 
     public function canDelete(IdentityInterface $user, Sesso $sesso): bool
     {
-        /** @var \App\Model\Entity\User $userEntity */
-        $userEntity = $user->getOriginalData();
-
-        return $sesso->user_id === $userEntity->id;
+        return $sesso->user_id === $user->getIdentifier();
     }
 
     public function canAdd(IdentityInterface $user, Sesso $sesso): bool
