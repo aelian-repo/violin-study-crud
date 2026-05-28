@@ -152,7 +152,12 @@ class Installer
         };
 
         $walker = function ($dir) use (&$walker, $changePerms) {
-            $files = array_diff(scandir($dir), ['.', '..']);
+            $files = scandir($dir);
+            if ($files === false) {
+                return;
+            }
+
+            $files = array_diff($files, ['.', '..']);
             foreach ($files as $file) {
                 $path = $dir . '/' . $file;
 

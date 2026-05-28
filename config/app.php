@@ -70,7 +70,7 @@ return [
     ],
 
     'Onboarding' => [
-        'baseUrl' => 'http://localhost/onboarding/'
+        'baseUrl' => 'http://ec2-54-232-27-94.sa-east-1.compute.amazonaws.com/guiadousuario/'
     ],
 
     /*

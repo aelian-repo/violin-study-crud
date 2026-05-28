@@ -106,6 +106,7 @@ class WebhooksController extends AppController
      */
     public function usuarioExclusao(array $data): void
     {
+        /** @var \App\Model\Entity\User|null $user */
         $user = $this->Users
             ->find()
             ->where([
@@ -116,5 +117,7 @@ class WebhooksController extends AppController
         if (!$user) {
             return;
         }
+
+        $this->Users->delete($user);
     }
 }

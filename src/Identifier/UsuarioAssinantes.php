@@ -33,6 +33,10 @@ class UsuarioAssinantes
         if ($method === '') {
             return null;
         }
+
+        if ($curl === false) {
+            return null;
+        }
         curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $method);
         curl_setopt($curl, CURLOPT_POSTFIELDS, $resource);
         curl_setopt($curl, CURLOPT_VERBOSE, false);
