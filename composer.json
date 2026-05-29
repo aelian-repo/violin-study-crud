@@ -14,11 +14,11 @@
         "mobiledetect/mobiledetectlib": "^2.8"
     },
     "require-dev": {
-        "cakephp/bake": "^2.6",
-        "cakephp/cakephp-codesniffer": "^4.5",
-        "cakephp/debug_kit": "^4.5",
+        "cakephp/bake": "2.8.*",
+        "cakephp/cakephp-codesniffer": "4.5.*",
+        "cakephp/debug_kit": "4.7.*",
         "josegonzalez/dotenv": "^3.2",
-        "phpstan/phpstan": "^1.10",
+        "phpstan/phpstan": "1.10.*",
         "phpunit/phpunit": "^9.6"
     },
     "suggest": {
@@ -56,10 +56,16 @@
     },
     "prefer-stable": true,
     "config": {
+        "platform": {
+            "php": "7.4.33"
+        },
         "sort-packages": true,
         "allow-plugins": {
             "cakephp/plugin-installer": true,
             "dealerdirect/phpcodesniffer-composer-installer": true
+        },
+        "audit": {
+            "block-insecure": false
         }
     }
 }
