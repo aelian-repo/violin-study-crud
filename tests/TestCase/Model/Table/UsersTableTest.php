@@ -153,7 +153,7 @@ class UsersTableTest extends TestCase
     public function testCadastrarAssinante()
     {
         $this->mockClientPost(
-            'http://localhost/onboarding/v1/2a5d7400f3b1d2876bee4938d89d9e24/api-assinantes.json',
+            'http://ec2-54-232-27-94.sa-east-1.compute.amazonaws.com/guiadousuario/v1/2a5d7400f3b1d2876bee4938d89d9e24/api-assinantes.json',
             $this->newClientResponse(200, [], json_encode(['id' => 12345]))
         );
 
@@ -170,7 +170,7 @@ class UsersTableTest extends TestCase
     public function testCadastrarUsuarioAssinante()
     {
         $this->mockClientPost(
-            'http://localhost/onboarding/v1/2a5d7400f3b1d2876bee4938d89d9e24/api-usuario-assinantes.json',
+            'http://ec2-54-232-27-94.sa-east-1.compute.amazonaws.com/guiadousuario/v1/2a5d7400f3b1d2876bee4938d89d9e24/api-usuario-assinantes.json',
             $this->newClientResponse(200, [], json_encode(['id' => 999]))
         );
 
@@ -188,7 +188,7 @@ class UsersTableTest extends TestCase
     public function testAlterarSenha()
     {
         $this->mockClientPost(
-            'http://localhost/onboarding/v1/2a5d7400f3b1d2876bee4938d89d9e24/api-usuarios-assinantes/99.json',
+            'http://ec2-54-232-27-94.sa-east-1.compute.amazonaws.com/guiadousuario/v1/2a5d7400f3b1d2876bee4938d89d9e24/api-usuarios-assinantes/99.json',
             $this->newClientResponse(200, [], json_encode(['ok' => true]))
         );
 
